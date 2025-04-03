@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Lazy Susan Color Cycle</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f0f0f0;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .showcase-container {
+      position: relative;
+      width: 600px;
+      height: 300px;
+    }
+
+    /* Common style for boxes */
+    .box {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      transition: all 1s ease, background 1s linear;
+    }
+
+    /* Positioning classes */
+    .left {
+      left: 50px;
+      top: 75px;
+      transform: scale(0.8);
+      z-index: 1;
+    }
+    .center {
+      left: 225px;
+      top: 50px;
+      transform: scale(1.2);
+      z-index: 2;
+    }
+    .right {
+      left: 400px;
+      top: 75px;
+      transform: scale(0.8);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase-container">
+    <div id="box1" class="box left"></div>
+    <div id="box2" class="box center"></div>
+    <div id="box3" class="box right"></div>
+  </div>
+
+  <script>
+    // 64 unique colors for cycling
+    const colors = [
+      "#FF0000", "#FF4500", "#FF8C00", "#FFA500", "#FFD700", "#FFFF00", "#ADFF2F", "#7FFF00",
+      "#00FF00", "#32CD32", "#00FA9A", "#00FFFF", "#1E90FF", "#0000FF", "#8A2BE2", "#4B0082",
+      "#800080", "#FF00FF", "#FF1493", "#C71585", "#DC143C", "#B22222", "#A52A2A", "#8B4513",
+      "#D2691E", "#FF7F50", "#FF6347", "#FF4500", "#FF69B4", "#FF1493", "#EE82EE", "#9400D3",
+      "#9932CC", "#BA55D3", "#8B008B", "#8A2BE2", "#9370DB", "#7B68EE", "#6A5ACD", "#4682B4",
+      "#5F9EA0", "#2E8B57", "#3CB371", "#66CDAA", "#8FBC8F", "#B0E0E6", "#ADD8E6", "#87CEEB",
+      "#87CEFA", "#1E90FF", "#6495ED", "#4169E1", "#00008B", "#000080", "#191970", "#556B2F",
+      "#808000", "#9ACD32", "#6B8E23", "#228B22", "#008000", "#006400", "#2F4F4F", "#708090"
+    ];
+
+    let colorIndex = 0;
+
+    // Array holding box elements in their current order.
+    let boxes = [
+      { el: document.getElementById('box1'), pos: 'left' },
+      { el: document.getElementById('box2'), pos: 'center' },
+      { el: document.getElementById('box3'), pos: 'right' }
+    ];
+
+    // Function to assign positions and update colors
+    function updatePositions() {
+      boxes[0].el.className = 'box left';
+      boxes[1].el.className = 'box center';
+      boxes[2].el.className = 'box right';
+
+      // Assign new colors from the cycling color array
+      boxes.forEach((box, i) => {
+        box.el.style.background = colors[(colorIndex + i) % colors.length];
+      });
+
+      // Increment color index
+      colorIndex = (colorIndex + 1) % colors.length;
+    }
+
+    // Function to cycle positions: left -> center, center -> right, right -> left.
+    function cyclePositions() {
+      boxes.unshift(boxes.pop()); // Rotate positions
+      updatePositions();
+    }
+
+    // Initialize colors and start cycle
+    updatePositions();
+    setInterval(cyclePositions, 3000);
+  </script>
+</body>
+</html>

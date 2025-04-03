@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glasses Showcase Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f0f0f0;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .showcase-container {
+      position: relative;
+      width: 600px;
+      height: 300px;
+    }
+
+    /* Common style for boxes */
+    .box {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      transition: all 1s ease;
+    }
+
+    /* Positioning classes */
+    .left {
+      left: 50px;
+      top: 75px;
+      transform: scale(0.8);
+      z-index: 1;
+    }
+    .center {
+      left: 225px;
+      top: 50px;
+      transform: scale(1.2);
+      z-index: 2;
+    }
+    .right {
+      left: 400px;
+      top: 75px;
+      transform: scale(0.8);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase-container">
+    <div id="box1" class="box left" style="background: red;"></div>
+    <div id="box2" class="box center" style="background: blue;"></div>
+    <div id="box3" class="box right" style="background: green;"></div>
+  </div>
+
+  <script>
+    // Array holding box elements in their current order.
+    // The order of classes: index 0 = left, index 1 = center, index 2 = right.
+    let boxes = [
+      { el: document.getElementById('box1'), pos: 'left' },
+      { el: document.getElementById('box2'), pos: 'center' },
+      { el: document.getElementById('box3'), pos: 'right' }
+    ];
+
+    // Function to assign classes based on the current order.
+    function updatePositions() {
+      boxes[0].el.className = 'box left';
+      boxes[1].el.className = 'box center';
+      boxes[2].el.className = 'box right';
+    }
+
+    // Function to cycle positions: left -> center, center -> right, right -> left.
+    function cyclePositions() {
+      // Rotate the array so that the left becomes center, center becomes right, right becomes left.
+      boxes.unshift(boxes.pop());
+      updatePositions();
+    }
+
+    // Automatically cycle every 3 seconds.
+    setInterval(cyclePositions, 3000);
+  </script>
+</body>
+</html>
